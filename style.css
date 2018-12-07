@@ -49,6 +49,10 @@ body {
     cursor: pointer;
 }
 
+.inputContainer:focus {
+    opacity:1;
+}
+
 .inputContainer {
     background-color:#6989C1;
     width:100%;
@@ -95,4 +99,8 @@ body {
 .trash { 
     position: absolute;
     right: 10px;
+}
+
+.hey {
+    display:block;
 }
