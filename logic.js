@@ -39,7 +39,11 @@ class List extends React.Component {
             this.setState({
                 key: this.state.key + 1
             })
-            this.state.arr.push(<div className="newTodo" key={this.state.key + 1}> <img onClick={this.passToDone} src="https://image.flaticon.com/icons/svg/2/2276.svg" />{this.textInput.value}  <img className="trash" src="https://image.flaticon.com/icons/svg/126/126468.svg" /> </div>)
+
+            this.state.arr.push(<div className="newTodo" key={this.state.key + 1}>
+                <img onClick={this.passToDone} src="https://image.flaticon.com/icons/svg/2/2276.svg" />
+                {`${this.textInput.value} on ${this.daySelect.value}/${this.monthSelect.value}/${this.yearSelect.value}`}
+                <img className="trash" src="https://image.flaticon.com/icons/svg/126/126468.svg" /> </div>)
         }
     }
     passToDo(e) {
@@ -56,7 +60,7 @@ class List extends React.Component {
             }
         }
         var arr = this.state.arr;
-        arr.push(<div className="newTodo" key={this.state.key + 1}> <img onClick={this.passToDone} id="unchecked" src="https://image.flaticon.com/icons/svg/2/2276.svg" />{task}  <img className="trash" onClick={this.trash}  src="https://image.flaticon.com/icons/svg/126/126468.svg" /> {this.task}</div>)
+        arr.push(<div className="newTodo" key={this.state.key + 1}> <img onClick={this.passToDone} id="unchecked" src="https://image.flaticon.com/icons/svg/2/2276.svg" />{task}  <img className="trash" onClick={this.trash} src="https://image.flaticon.com/icons/svg/126/126468.svg" /> {this.task}</div>)
     }
     passToDone(e) {
         this.setState({
@@ -64,7 +68,6 @@ class List extends React.Component {
         })
         var task = e.target.parentElement.textContent;
         e.target.parentElement.remove();
-        console.log(task);
         var task_arr = this.state.arr;
         for (var i = 0; i < task_arr.length; i++) {
             if (task === task_arr[i].props.children[2]) {
@@ -85,13 +88,44 @@ class List extends React.Component {
     }
 
     render() {
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var days = [];
+        var years = [];
+        for (var i = 1; i <= 31; i++) {
+            days.push(i)
+        }
+        for (var i = 2018; i <= 2050; i++) {
+            years.push(i)
+        }
+        var daysDropdown = days.map(
+            x => <option key={`item${x}`}>{x}</option>);
+        var monthsDropdown = months.map(
+            x => <option key={`item${x}`}>{x}</option>);
+        var yearsDropdown = years.map(
+            x => <option key={`item${x}`}>{x}</option>);
         return (
             <div className="inputContainer">
-                <img src="https://image.flaticon.com/icons/svg/54/54443.svg" />
-                <input ref={(text) => { this.textInput = text; }} onKeyPress={this.newToDo} className="addTodo" type="text" placeholder="Add a to-do..." />
+                <div className="flex">
+                    <div>
+                        <input ref={(text) => { this.textInput = text; }} onKeyPress={this.newToDo} className="addTodo" type="text" placeholder="Add a to-do..." />
+                    </div>
+                    <div>
+                        <select className="date" ref={(select) => { this.daySelect = select; }}>
+                            {daysDropdown}
+                        </select>
+                        <select className="date" ref={(select) => { this.monthSelect = select; }}>
+                            {monthsDropdown}
+                        </select>
+                        <select className="date" ref={(select) => { this.yearSelect = select; }}>
+                            {yearsDropdown}
+                        </select>
+
+                    </div>
+                </div>
                 <span>{this.state.arr} </span>
 
-                <div className="showCompleted" >Show completed to-do's </div>
+
+                <div className="showCompleted" >Completed to-do's </div>
                 <div> {this.state.text} </div>
 
                 <div>
